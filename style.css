@@ -1,0 +1,20 @@
+body
+{
+    background-size: cover;
+    background-position: center;
+}
+.heading
+{
+    background-color: rgba(160, 218, 232, 0.759);
+    color: rgba(85, 138, 152, 0.759);
+}
+canvas
+{
+    box-shadow: 10px 10px 10px rgb(160, 218, 232, 0.759);
+    border-radius: 10px;
+    margin-top: 30px;
+}
+#status ,#numberOfObjects, #startModel
+{
+    font-size: 18px;
+}
