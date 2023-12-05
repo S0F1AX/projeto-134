@@ -1,15 +1,13 @@
-img="";
-status="";
-objects=[];
-modelStatus="";
+img = "";
+status = "";
+objects = [];
+modelStatus = "";
 
-function preload()
-{
-   
+function preload() {
+    song=loadSound("ringing_old_phone.mp3");
 }
 
-function setup()
-{
+function setup() {
     canvas = createCanvas(640, 420);
     canvas.center();
     camera = createCapture(VIDEO);
@@ -18,53 +16,58 @@ function setup()
     camera.hide();
 }
 
-function start()
-{
+function start() {
     objectDetector = ml5.objectDetector('cocossd', modelLoaded);
     document.getElementById("status").innerHTML = "Status : Detectando Objeto";
 }
 
-function draw()
-{
+function draw() {
     image(camera, 0, 0, 640, 420);
 
-    if(modelStatus != "")
-    {
+    if (modelStatus != "") {
         r = random(255);
         g = random(255);
         b = random(255);
         objectDetector.detect(camera, gotResult);
-        for (i = 0; i < objects.length; i++)
-        {
+        for (i = 0; i < objects.length; i++) {
             document.getElementById("status").innerHTML = "Status: Objects Detectados";
 
 
-            fill(r,g,b);
+            fill(r, g, b);
             percent = floor(objects[i].confidence * 100);
             text(objects[i].label + " " + percent + "%", objects[i].x + 15, objects[i].y + 15);
             noFill();
-            stroke(r,g,b);
+            stroke(r, g, b);
             rect(objects[i].x, objects[i].y, objects[i].width, objects[i].height);
-        }
+
+
+            if (objects[i].label=="person")
+            {
+                document.getElementById("status").innerHTML = "Status: Bebê encontrado"
+                song.stop();
+            }
+            else
+            {
+                document.getElementById("status").innerHTML = "Status: Bebê não encontrado... MEU DEUS"
+                song.play();
+            }
+    }
     }
 
 }
 
-if()
 
-function modelLoaded()
-{
+
+function modelLoaded() {
     console.log("Model Loaded!");
     modelStatus = true;
     objectDetector.detect(img, gotResult);
 }
 
-function gotResult(error, results)
-{
-    if (error)
-    {
+function gotResult(error, results) {
+    if (error) {
         console.log(error);
     }
     console.log(results);
-    objects=results;
+    objects = results;
 }
